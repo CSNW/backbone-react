@@ -1,0 +1,40 @@
+{
+  "name": "backbone-react",
+  "version": "0.0.0",
+  "description": "Connect Backbone and React",
+  "repository": "github:CSNW/backbone-react",
+  "license": "MIT",
+  "homepage": "https://github.com/CSNW/backbone-react",
+  "author": "Tim Hall <tim.hall@cornerstonenw.com>",
+  "keywords": [
+    "backbone",
+    "react"
+  ],
+  "main": "dist/backbone-react.umd.js",
+  "module": "dist/backbone-react.es.js",
+  "browser": "dist/backbone-react.umd.min.js",
+  "sideEffects": false,
+  "scripts": {
+    "build": "rollup -c",
+    "pretest": "npm run build",
+    "test": "jest"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/backbone": "^1.4.0",
+    "@types/react": "^16.8.18",
+    "@types/react-dom": "^16.8.4",
+    "backbone": "^1.4.0",
+    "jest": "^24.8.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "rollup": "^1.12.3",
+    "rollup-plugin-dts": "^0.15.1",
+    "rollup-plugin-filesize": "^6.1.0",
+    "rollup-plugin-terser": "^5.0.0",
+    "rollup-plugin-typescript": "^1.0.1",
+    "ts-jest": "^24.0.2",
+    "tslib": "^1.9.3",
+    "typescript": "^3.4.5"
+  }
+}
