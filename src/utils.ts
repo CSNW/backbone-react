@@ -1,22 +1,15 @@
-export function assign(object: any, ...sources: any[]): any {
-  for (const source of sources) {
-    for (const key of Object.keys(source)) {
-      object[key] = source[key];
-    }
-  }
-
-  return object;
-}
-
-export function pick(object: any, keys: string[]): any {
-  const picked: any = {};
+export function pick<TObject, TKey extends keyof TObject>(
+  object: TObject,
+  keys: TKey[]
+): Pick<TObject, TKey> {
+  const picked: Partial<TObject> = {};
   for (const key of Object.keys(object)) {
-    if (keys.includes(key)) {
-      picked[key] = object[key];
+    if (keys.includes(key as TKey)) {
+      (picked as any)[key] = (object as any)[key];
     }
   }
 
-  return picked;
+  return picked as Pick<TObject, TKey>;
 }
 
 export function isFunction(value: any): boolean {

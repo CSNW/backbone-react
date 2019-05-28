@@ -1,10 +1,10 @@
 import * as Backbone from 'backbone';
 import * as React from 'react';
-import { assign, pick } from './utils';
+import { pick } from './utils';
 
 export default function useModel(model: Backbone.Model, keys?: string[]): any {
   const select = () => {
-    return assign({}, keys ? pick(model.attributes, keys) : model.attributes);
+    return { ...(keys ? pick(model.attributes, keys) : model.attributes) };
   };
 
   const [attributes, setAttributes] = React.useState(select());

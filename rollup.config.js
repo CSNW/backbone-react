@@ -3,9 +3,10 @@ import { terser } from 'rollup-plugin-terser';
 import dts from 'rollup-plugin-dts';
 import filesize from 'rollup-plugin-filesize';
 
-const external = ['react', 'backbone'];
+const external = ['react', 'react-dom', 'backbone'];
 const globals = {
   react: 'React',
+  'react-dom': 'ReactDOM',
   backbone: 'Backbone'
 };
 const es5 = {

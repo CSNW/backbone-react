@@ -11,14 +11,15 @@ import { isFunction } from './utils';
 
 type RefFunction<TValue> = (value: TValue | null) => void;
 
+// TODO Better typing here
+type Component = any;
+
 export interface Props {
   View: typeof Backbone.View;
   options?: object;
-  as?: any;
+  as?: string | Component;
   instance?: Ref<Backbone.View>;
 }
-
-const alwaysEqual = () => true;
 
 export default memo(
   forwardRef(function BackboneView(props: Props, ref: Ref<any>) {
@@ -31,21 +32,18 @@ export default memo(
     } = props;
     const container = useRef<null | HTMLElement>(null);
 
-    // useEffect can be thought of as componentDidMount, componentDidUpdate, and componentWillUnmount
-    //
-    // For componentDidMount, create instance, append, and then render
+    // For mount:, create instance, append, and then render
     // (render after appending to avoid issues with views that expect to be in the DOM)
     //
-    // For componentDidUpdate, not used here due to React.memo that doesn't change
+    // For update: not used here due to React.memo that doesn't change
     //
-    // For componentWillUnmount, remove the instance to allow for cleanup
+    // For unmount: remove the instance to allow for cleanup
     useEffect(() => {
       const instance = new View(options);
 
       container.current!.appendChild(instance.el);
       instance.render();
 
-      setRef(ref, instance.el);
       setRef(instanceRef, instance);
 
       return () => {
@@ -70,4 +68,8 @@ function setRef<TValue>(ref: Ref<TValue> | undefined, value: TValue | null) {
     // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31065
     (ref as RefObject<TValue>).current = value;
   }
+}
+
+function alwaysEqual() {
+  return true;
 }
