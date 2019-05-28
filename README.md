@@ -10,12 +10,34 @@ import { BackboneView } from 'backbone-react';
 import LegacyView from './views/legacy';
 
 export default function Component(props) {
+  const { id } = props;
+
   return (
     <div>
       <h2>Backbone inside React</h2>
-      <BackboneView View={LegacyView} options={{ passed_to_view: true }} />
+      <BackboneView View={LegacyView} options={{ id }} />
     </div>
   );
+}
+```
+
+A ref can be used to access the View's element and instance for advanced use cases:
+
+```js
+import * as React from 'react';
+import { BackboneView } from 'backbone-react';
+import LegacyView from './views/legacy';
+
+export default function Component(props) {
+  const el = React.useRef(null);
+  const instance = React.useRef(null);
+
+  React.useEffect(() => {
+    // el.current = LegacyView's el
+    // instance.current = LegacyView's instance
+  });
+
+  <BackboneView View={LegacyView} ref={el} instance={instance} />
 }
 ```
 
@@ -25,7 +47,8 @@ export default function Component(props) {
 import { ReactView } from 'backbone-react';
 import Component from './views/component';
 
-const main = new ReactView(Component, { passed_as_props: true });
+const props = { message: 'Howdy!' };
+const main = new ReactView(Component, props);
 
 document.getElementById('main').appendChild(main.el);
 main.render();
