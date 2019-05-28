@@ -19,7 +19,8 @@
   "scripts": {
     "build": "rollup -c",
     "pretest": "npm run build",
-    "test": "jest"
+    "test": "jest",
+    "version": "npm run build && git add -A dist"
   },
   "peerDependencies": {
     "backbone": "^1.4.0",
