@@ -1,4 +1,11 @@
-import * as React from 'react';
+import React, {
+  memo,
+  forwardRef,
+  useRef,
+  useEffect,
+  Ref,
+  RefObject
+} from 'react';
 import * as Backbone from 'backbone';
 import { isFunction } from './utils';
 
@@ -7,15 +14,22 @@ type RefFunction<TValue> = (value: TValue | null) => void;
 export interface Props {
   View: typeof Backbone.View;
   options?: object;
-  instance?: React.Ref<Backbone.View>;
+  as?: any;
+  instance?: Ref<Backbone.View>;
 }
 
 const alwaysEqual = () => true;
 
-export default React.memo(
-  React.forwardRef((props: Props, ref: React.Ref<any>) => {
-    const { View, options = {}, instance: instanceRef } = props;
-    const el = React.useRef<null | HTMLElement>(null);
+export default memo(
+  forwardRef(function BackboneView(props: Props, ref: Ref<any>) {
+    const {
+      View,
+      options = {},
+      as: Component = 'div',
+      instance: instanceRef,
+      ...passthrough
+    } = props;
+    const container = useRef<null | HTMLElement>(null);
 
     // useEffect can be thought of as componentDidMount, componentDidUpdate, and componentWillUnmount
     //
@@ -25,10 +39,10 @@ export default React.memo(
     // For componentDidUpdate, not used here due to React.memo that doesn't change
     //
     // For componentWillUnmount, remove the instance to allow for cleanup
-    React.useEffect(() => {
+    useEffect(() => {
       const instance = new View(options);
 
-      el.current!.appendChild(instance.el);
+      container.current!.appendChild(instance.el);
       instance.render();
 
       setRef(ref, instance.el);
@@ -37,19 +51,16 @@ export default React.memo(
       return () => {
         instance.remove();
       };
-    }, [el]);
+    }, [container]);
 
-    return <div ref={el as any} />;
+    return <Component {...passthrough} ref={ref} />;
   }),
 
   // The only way to interact with the Backbone view is imperatively via instance
   alwaysEqual
 );
 
-function setRef<TValue>(
-  ref: React.Ref<TValue> | undefined,
-  value: TValue | null
-) {
+function setRef<TValue>(ref: Ref<TValue> | undefined, value: TValue | null) {
   if (!ref) return;
 
   if (isFunction(ref)) {
@@ -57,6 +68,6 @@ function setRef<TValue>(
   } else {
     // @ts-ignore Cannot assign to 'current' because it is a read-only property
     // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31065
-    (ref as React.RefObject<TValue>).current = value;
+    (ref as RefObject<TValue>).current = value;
   }
 }

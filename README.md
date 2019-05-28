@@ -2,7 +2,7 @@
 
 ## API
 
-<a href="#BackboneView" name="BackboneView">#</a> <b>BackboneView</b>({ <i>View</i>[, <i>options</i>] })
+<a href="#BackboneView" name="BackboneView">#</a> <b>BackboneView</b>({ <i>View</i>[, <i>options</i>, <i>as</i>, <i>instance</i>, ...props] })
 
 ```js
 import * as React from 'react';
@@ -21,7 +21,7 @@ export default function Component(props) {
 }
 ```
 
-A ref can be used to access the View's element and instance for advanced use cases:
+For advanced use cases, `as` can be used to set the type of the container element, an `instance` ref can be used to access the View's instance, and any additional props are passed to the container element.
 
 ```js
 import * as React from 'react';
@@ -29,15 +29,19 @@ import { BackboneView } from 'backbone-react';
 import LegacyView from './views/legacy';
 
 export default function Component(props) {
-  const el = React.useRef(null);
   const instance = React.useRef(null);
 
   React.useEffect(() => {
-    // el.current = LegacyView's el
     // instance.current = LegacyView's instance
   });
 
-  <BackboneView View={LegacyView} ref={el} instance={instance} />
+  <BackboneView as="main" id="main-id" View={LegacyView} instance={instance} />
+
+  // Will render as:
+  //
+  // <main id="main-id">
+  //   (LegacyView el)
+  // </main>
 }
 ```
 
