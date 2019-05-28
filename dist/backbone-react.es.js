@@ -1,3 +1,4 @@
+//! backbone-react v0.1.2 - https://github.com/CSNW/backbone-react - @license: MIT
 import React__default, { memo, forwardRef, useRef, useEffect, createElement, useState } from 'react';
 import { View } from 'backbone';
 import { render } from 'react-dom';
@@ -43,6 +44,11 @@ function isFunction(value) {
 var backboneView = memo(forwardRef(function BackboneView(props, ref) {
     const { View, options = {}, as: Component = 'div', instance: instanceRef } = props, passthrough = __rest(props, ["View", "options", "as", "instance"]);
     const container = useRef(null);
+    // Need to use the container's ref, but also want to forward
+    const setContainerRef = (current) => {
+        container.current = current;
+        setRef(ref, current);
+    };
     // For mount:, create instance, append, and then render
     // (render after appending to avoid issues with views that expect to be in the DOM)
     //
@@ -58,7 +64,7 @@ var backboneView = memo(forwardRef(function BackboneView(props, ref) {
             instance.remove();
         };
     }, [container]);
-    return React__default.createElement(Component, Object.assign({}, passthrough, { ref: ref }));
+    return React__default.createElement(Component, Object.assign({}, passthrough, { ref: setContainerRef }));
 }), 
 // The only way to interact with the Backbone view is imperatively via instance
 alwaysEqual);
