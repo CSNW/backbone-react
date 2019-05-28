@@ -18,3 +18,9 @@ export function pick(object: any, keys: string[]): any {
 
   return picked;
 }
+
+export function isFunction(value: any): boolean {
+  return (
+    !!value && Object.prototype.toString.call(value) === '[object Function]'
+  );
+}
