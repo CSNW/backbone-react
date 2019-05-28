@@ -1,2 +1,4 @@
-dist
+# publish dist for use with git dependencies
+# dist
+
 node_modules

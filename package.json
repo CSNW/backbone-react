@@ -14,6 +14,7 @@
   "main": "dist/backbone-react.umd.js",
   "module": "dist/backbone-react.es.js",
   "browser": "dist/backbone-react.umd.min.js",
+  "types": "dist/backbone-react.d.ts",
   "sideEffects": false,
   "scripts": {
     "build": "rollup -c",
