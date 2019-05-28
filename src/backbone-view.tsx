@@ -32,6 +32,12 @@ export default memo(
     } = props;
     const container = useRef<null | HTMLElement>(null);
 
+    // Need to use the container's ref, but also want to forward
+    const setContainerRef = (current: HTMLElement) => {
+      container.current = current;
+      setRef(ref, current);
+    };
+
     // For mount:, create instance, append, and then render
     // (render after appending to avoid issues with views that expect to be in the DOM)
     //
@@ -51,7 +57,7 @@ export default memo(
       };
     }, [container]);
 
-    return <Component {...passthrough} ref={ref} />;
+    return <Component {...passthrough} ref={setContainerRef} />;
   }),
 
   // The only way to interact with the Backbone view is imperatively via instance
