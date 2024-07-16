@@ -1,4 +1,4 @@
-//! backbone-react v0.1.2 - https://github.com/CSNW/backbone-react - @license: MIT
+//! backbone-react v0.1.3 - https://github.com/CSNW/backbone-react - @license: MIT
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('react'), require('backbone'), require('react-dom')) :
     typeof define === 'function' && define.amd ? define(['exports', 'react', 'backbone', 'react-dom'], factory) :
